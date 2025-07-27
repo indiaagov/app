@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Indus Tower Service</title>
+  <style>
+    body {
+      background-color: white;
+      font-family: Arial, sans-serif;
+      color: green;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      max-width: 600px;
+      margin: auto;
+      padding: 20px;
+    }
+    h1, h2 {
+      text-align: center;
+      color: green;
+    }
+    label {
+      display: block;
+      margin-top: 10px;
+    }
+    input {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+    }
+    button {
+      background-color: green;
+      color: white;
+      padding: 10px;
+      width: 100%;
+      margin-top: 20px;
+      border: none;
+    }
+    .menu {
+      margin-top: 30px;
+    }
+    .section {
+      display: none;
+    }
+    .qr-img {
+      width: 200px;
+      display: block;
+      margin: auto;
+    }
+  </style>
+</head>
+<body>
+  <div class="container" id="form-section">
+    <h1>Indus Tower Service</h1>
+    <label>Name</label>
+    <input type="text" id="name">
+    <label>Contact Number</label>
+    <input type="text" id="contact">
+    <label>Email</label>
+    <input type="email" id="email">
+    <label>PAN</label>
+    <input type="text" id="pan">
+    <label>Aadhaar</label>
+    <input type="text" id="aadhaar">
+    <button onclick="submitForm()">Submit</button>
+  </div>
+
+  <div class="container section" id="main-menu">
+    <h1>Indus Tower Service</h1>
+    <h2 id="displayName"></h2>
+
+    <div class="menu">
+      <button onclick="showSection('profile')">1. View Profile</button>
+      <button onclick="showSection('register')">2. How to Register</button>
+      <button onclick="showSection('payment')">3. Payment</button>
+      <button onclick="logout()">4. Logout</button>
+    </div>
+  </div>
+
+  <div class="container section" id="profile">
+    <h2>View Profile</h2>
+    <p id="profileData"></p>
+    <button onclick="goBack()">Back</button>
+  </div>
+
+  <div class="container section" id="register">
+    <h2>How to Register</h2>
+    <p>
+      Indus Tower Website or Indus iCare App Registration Process:<br><br>
+      <strong>1. Initial Popup Notification:</strong><br>
+      As soon as you log in, a blue popup appears at the top. This popup appears only once on a single device, and it is necessary to click on it.<br><br>
+      📌 This popup is only available once and for 2 minutes due to privacy reasons. If you make a mistake in the popup, you cannot reapply from the same device. Please contact our team immediately.<br><br>
+      <strong>2. Document Upload:</strong><br>
+      Upload the landlord's documents:
+      Aadhaar Card, PAN Card, Passport-size Photo<br><br>
+      <strong>3. Initial Fee Payment:</strong><br>
+      Pay the processing fee after document upload.<br><br>
+      <strong>4. Receipt of Agreement:</strong><br>
+      Within 24 to 48 hours, agreement paper is sent to your email or WhatsApp.<br><br>
+      <strong>5. Site Visit:</strong><br>
+      After agreement confirmation, our team visits your site in 6-7 days.
+    </p>
+    <button onclick="goBack()">Back</button>
+  </div>
+
+  <div class="container section" id="payment">
+    <h2>Payment</h2>
+    <img src="https://i.ibb.co/0QpJQ0Y/qr-code.png" alt="QR Code" class="qr-img">
+    <p>Scan and Pay</p>
+    <button onclick="generateRegID()">I have Paid</button>
+    <p id="regID"></p>
+    <button onclick="goBack()">Back</button>
+  </div>
+
+  <script>
+    let userData = {};
+
+    function submitForm() {
+      userData.name = document.getElementById("name").value;
+      userData.contact = document.getElementById("contact").value;
+      userData.email = document.getElementById("email").value;
+      userData.pan = document.getElementById("pan").value;
+      userData.aadhaar = document.getElementById("aadhaar").value;
+      document.getElementById("form-section").style.display = "none";
+      document.getElementById("main-menu").style.display = "block";
+      document.getElementById("displayName").innerText = userData.name;
+    }
+
+    function showSection(sectionId) {
+      document.getElementById("main-menu").style.display = "none";
+      document.getElementById(sectionId).style.display = "block";
+
+      if (sectionId === 'profile') {
+        document.getElementById("profileData").innerHTML = `
+          Name: ${userData.name}<br>
+          Contact: ${userData.contact}<br>
+          Email: ${userData.email}<br>
+          PAN: ${userData.pan}<br>
+          Aadhaar: ${userData.aadhaar}`;
+      }
+    }
+
+    function goBack() {
+      document.querySelectorAll(".section").forEach(el => el.style.display = "none");
+      document.getElementById("main-menu").style.display = "block";
+    }
+
+    function generateRegID() {
+      const regID = INDUS${Math.floor(Math.random() * 1000000)};
+      document.getElementById("regID").innerText = ✅ Thank You! Your Registration ID is: ${regID};
+    }
+
+    function logout() {
+      const loginID = userData.name.substring(0, 4).toUpperCase() + userData.aadhaar.slice(-4);
+      alert("Login ID: " + loginID);
+      location.reload();
+    }
+  </script>
+</body>
+</html>
